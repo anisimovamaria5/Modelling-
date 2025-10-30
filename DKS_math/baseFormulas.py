@@ -21,13 +21,6 @@ class BaseFormulas:
             float: Значение сверхсжимаемости Z
         """
         z_val = 1 - 0.427 * p_in / p_krit * (t_in / t_krit)**(-3.688)
-        # if type(z_val) == float:
-        #     return 0.1 if z_val < 0 else z_val
-        # else:
-        #     if type(z_val) == np.ndarray or type(z_val) == np.float64:
-        #         return np.where(z_val < 0 , 0.1, z_val)
-        #     else:
-        #         return z_val
         if isinstance(z_val, (np.ndarray, np.float64)):
             return np.where(z_val < 0, 0.1, z_val)
         return 0.1 if z_val < 0 else z_val

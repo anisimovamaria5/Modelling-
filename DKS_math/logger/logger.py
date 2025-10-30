@@ -34,7 +34,6 @@ def set_logger():
     logger.addHandler(file_handler)
     return logger
 
-# logger = set_logger()
 
 def setup_logging():
     with open('DKS_math/logger/logs/app.csv', 'w') as f:

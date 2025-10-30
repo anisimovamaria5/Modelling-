@@ -94,61 +94,13 @@ async def get_calc(
     Эндпойнт получения таблицы для расчетов\n
 
     """
-    return [{
-            "q_rate": [
-                35.0,
-                35.0
-            ],
-            "p_in": 3.0,
-            "p_target": 7.0,
-            "p_in_result": [
-                3.0,
-                4.239999834224764
-            ],
-            "p_out": [
-                4.299999834224764,
-                7.000000009226201
-            ],
-            "freq": [
-                3591,
-                3977
-            ],
-            "title": [
-                "НЦ 16-41 2.2",
-                "нц 16-76 2.2"
-            ],
-            "power": [
-                9674.02555438503,
-                9219.21166284354
-            ],
-            "comp": [
-                1.4333332780749213,
-                1.6509434629508828
-            ],
-            "work_gpa": [
-                2,
-                3
-            ],
-            "target": [
-                2.7000001657752364,
-                9.226201136414147e-09
-            ],
-            "udal": [
-                71.26513229809864,
-                58.61895525136729
-            ],
-            "volume_rate": [
-                393.475116387859,
-                180.6994313213335
-            ]
-            }] * len(mode)
-    # return await serv.calc_of_modes(
-    #     [await serv.get_gdh_by_unit_id(stage.id) for stage in conf_gdh.stage_list],
-    #     [stage.count_GPA for stage in conf_gdh.stage_list],
-    #     mode,
-    #     bound_dict,
-    #     deg
-    # )
+    return await serv.calc_of_modes(
+        [await serv.get_gdh_by_unit_id(stage.id) for stage in conf_gdh.stage_list],
+        [stage.count_GPA for stage in conf_gdh.stage_list],
+        mode,
+        bound_dict,
+        deg
+    )
 
 
 @router.delete("/delete/",

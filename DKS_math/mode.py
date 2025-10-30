@@ -32,14 +32,7 @@ class Mode(BaseFormulas):
         res.q_rate /= other
         return res
     
-    
-if __name__=='__main__':
-    mode_obj = Mode(1,2,300,4,5,6)
-    print(mode_obj)
-    print(mode_obj.get_volume_rate)
-    mode_obj /= 2
-    print(mode_obj)
-    # print(mode_obj.get_volume_rate)
+
 
 
      

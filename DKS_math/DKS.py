@@ -92,8 +92,8 @@ class ConfGDHSolver(ConfGDH):
 if __name__ == '__main__':
     df_conf = []
     conf_solv_obj = ConfGDHSolver([
-            (GdhInstance.create_by_csv('./DKS_math/Test/spch_dimkoef/ГПА-ц3-16С-45-1.7(ККМ).csv'), 4),
-            (GdhInstance.create_by_csv('./DKS_math/Test/spch_dimkoef/CGX-425-16-65-1.7СМП(ПСИ).csv'), 4),
+            (GdhInstance.create_by_csv('name_path.csv'), 4),
+            (GdhInstance.create_by_csv('name_path.csv'), 4),
             ],
             bound_dict
             )

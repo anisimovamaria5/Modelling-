@@ -348,14 +348,4 @@ class BaseGDH:
         ax.set_axisbelow(True)
         ax.grid(color='lightgray', linestyle='dashed')
         return plt
-    
-
-
-if __name__=='__main__':
-    # f_path = 'media\Оцифрованные СПЧ.xlsx'
-    # res = get_df_by_excel(f_path)
-    # print([
-    #     (type(row['kpd']),type(row['k_rash']),type(row['k_nap']))
-    # for _, row in res[0].iterrows()])
-    pass
 

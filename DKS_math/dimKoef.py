@@ -156,9 +156,3 @@ class DimKoef(BaseFormulas):
         # df.to_csv(f'spch_dimkoef\{filename}', index=False)
         return df
 
-if __name__ == '__main__':
-    df = pd.ExcelFile('dbqp3.xlsx')
-    for sheet_name in df.sheet_names:
-        dimKoef = DimKoef.create_by_excel(df)
-        dimKoef.create_csv()
-

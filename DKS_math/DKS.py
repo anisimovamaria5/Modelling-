@@ -89,32 +89,6 @@ class ConfGDHSolver(ConfGDH):
 
 # cProfile.run("grad_target(mode)", sort="cumtime")
 
-if __name__ == '__main__':
-    df_conf = []
-    conf_solv_obj = ConfGDHSolver([
-            (GdhInstance.create_by_csv('name_path.csv'), 4),
-            (GdhInstance.create_by_csv('name_path.csv'), 4),
-            ],
-            bound_dict
-            )
-
-    q_rate = [25.32]
-    p_in = [1.54]
-    p_out = [4.80]
-    print(time.strftime('%X'))
-    beg = dt.now()
-    for q_rate, p_in, p_out in list(zip(q_rate, p_in, p_out)):
-
-        mode = Mode([q_rate, q_rate], p_in, 288, 512, 1.31, p_out, 0.101325, 283)
-        
-        df_conf_solv:pd.DataFrame = asyncio.run(conf_solv_obj.async_get_min_value(mode)) 
-        df_conf.append(df_conf_solv)
-
-    df_res = pd.concat(df_conf)
-    print(df_res)
-    print(dt.now() - beg)
-    # print(get_call_stats())
-
 
 
  

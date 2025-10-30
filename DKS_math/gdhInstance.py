@@ -85,50 +85,16 @@ class GdhInstance(BaseFormulas):
         self._diam_cubed = np.pi**2 * diam**3 
 
     
-    # def get_kpd(self, k_rash): return self.f_kpd_poly1d(k_rash)
-    # def get_nap(self, k_rash): return self.f_nap_poly1d(k_rash)
+    def get_kpd(self, k_rash): return self.f_kpd_poly1d(k_rash)
+    def get_nap(self, k_rash): return self.f_nap_poly1d(k_rash)
 
-    @staticmethod
-    @njit(float64(float64[:], float64), fastmath=True)
-    def _eval_poly1d(poly_coeffs, x):
-        """Вычисление полинома с поддержкой Numba"""
-        result = 0.0
-        for coeff in poly_coeffs:
-            result = result * x + coeff
-        return result
-
-    def get_kpd(self, k_rash):
-        if isinstance(k_rash, (np.ndarray, list)):
-            # Приводим массив к непрерывному C-стилю
-            k_rash = np.ascontiguousarray(k_rash, dtype=np.float64)
-            return np.array([self._eval_poly1d(np.ascontiguousarray(self.f_kpd_poly1d, dtype=np.float64), x) 
-                            for x in k_rash])
-        return self._eval_poly1d(np.ascontiguousarray(self.f_kpd_poly1d, dtype=np.float64), 
-                                float(k_rash))
-
-    def get_nap(self, k_rash):
-        if isinstance(k_rash, (np.ndarray, list)):
-            k_rash = np.ascontiguousarray(k_rash, dtype=np.float64)
-            result = np.empty_like(k_rash)
-            coeffs = np.ascontiguousarray(self.f_nap_poly1d, dtype=np.float64)
-            for i in range(len(k_rash)):
-                result[i] = self._eval_poly1d(coeffs, k_rash[i])
-            return result
-        return self._eval_poly1d(np.ascontiguousarray(self.f_nap_poly1d, dtype=np.float64), 
-                                float(k_rash))
     
     def get_freq_bound(self, volume_rate_arr) -> Tuple[float,float]:
         koef_rash_bound_arr = np.array([self.koef_rash.max(), self.koef_rash.min()])
         freq_bound_arr = 4 * volume_rate_arr / (self._diam_cubed * koef_rash_bound_arr)
         return freq_bound_arr
-    
 
-    def _safe_polyval(self, coeff, x ):
-        if hasattr(x, '_value'):
-            x = x._value
-        return np.polyval(coeff, x)
     
-
     def get_summry_stage(self, mode:Mode, freq:float|np.ndarray, t_in=None, r_value=None, k_value=None) -> pd.Series:
         t_in = self.t_in if t_in is None else t_in
         r_value = self.r_value if r_value is None else r_value
@@ -182,12 +148,3 @@ class GdhInstance(BaseFormulas):
         ax2.plot(x2, self.f_kpd_poly1d(x2), c='r')
         return ax, ax2
     
-
-if __name__ == '__main__':
-    # gdh = GdhInstance.create_by_csv('spch_dimkoef\ГПА 16-41-2.2.csv')
-    gdh = GdhInstance.read_dict('spch_dimkoef/ГПА-ц3-16С-45-1.7(ККМ).csv')
-    mode = Mode([24.62, 24.62], 3.1, 288, 512, 1.31, 4.52, 0.101325, 283)
-    print(gdh.get_summry(mode, 3500.3))
-    # print(gdh.get_freq_bound(534))
-    # ax, ax2 = gdh.show_gdh()
-    # plt.show()
